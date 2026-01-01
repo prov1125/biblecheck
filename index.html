@@ -17,34 +17,34 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 15px;
-            line-height: 1.5;
+            padding: 10px;
+            line-height: 1.4;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: var(--white);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         header {
             text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 2px dashed var(--primary-orange);
-            padding-bottom: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1.5px dashed var(--primary-orange);
+            padding-bottom: 10px;
         }
 
-        h1 { font-size: 1.5rem; margin: 5px 0; color: #333; letter-spacing: -0.5px; }
-        .sub-title { font-weight: bold; color: var(--primary-orange); letter-spacing: 2px; font-size: 0.9rem; }
+        h1 { font-size: 1.4rem; margin: 2px 0; color: #333; }
+        .sub-title { font-weight: bold; color: var(--primary-orange); letter-spacing: 1.5px; font-size: 0.8rem; }
 
-        /* 기본 레이아웃 (PC 등 넓은 화면) */
+        /* 2단 레이아웃 고정 */
         .months-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 항상 2개 열 유지 */
-            gap: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             align-items: start;
         }
 
@@ -53,25 +53,24 @@
             font-style: italic;
             color: var(--primary-orange);
             border-bottom: 1px solid #eee;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+            font-size: 1.6rem;
         }
 
         .day-row {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-            border-bottom: 1px solid #fcfcfc;
-            padding-bottom: 6px;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f9f9f9;
+            padding-bottom: 4px;
         }
 
         .day-num {
-            width: 30px;
+            width: 25px;
             font-weight: bold;
             color: #b5835a;
-            margin-right: 10px;
+            margin-right: 8px;
             flex-shrink: 0;
             text-align: right;
         }
@@ -80,107 +79,80 @@
             flex: 1;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px 12px; /* 상하, 좌우 간격 */
+            gap: 4px 8px;
         }
 
         .task-item {
             display: flex;
             align-items: center;
             cursor: pointer;
-            user-select: none;
-            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+            white-space: nowrap;
         }
 
         .task-item input { display: none; }
 
-        /* "O" 동그라미 - 기본 크기 */
         .circle {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary-orange);
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--primary-orange);
             border-radius: 50%;
             display: inline-block;
-            margin-right: 6px;
+            margin-right: 4px;
             position: relative;
             background: white;
             flex-shrink: 0;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
         }
 
-        /* 체크되었을 때 */
-        .task-item input:checked + .circle {
-            background-color: var(--primary-orange);
-        }
-
+        .task-item input:checked + .circle { background-color: var(--primary-orange); }
         .task-item input:checked + .circle::after {
-            content: '✓';
-            color: white;
-            font-size: 13px;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            content: '✓'; color: white; font-size: 11px; font-weight: bold;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         }
 
-        .task-item input:checked ~ .task-text {
-            color: #ccc;
-            text-decoration: line-through;
-        }
+        .task-item input:checked ~ .task-text { color: #ccc; text-decoration: line-through; }
 
         footer {
-            margin-top: 30px;
-            font-size: 0.75rem;
-            text-align: center;
-            color: #999;
-            padding: 15px;
-            background: #fafafa;
-            border-radius: 12px;
+            margin-top: 20px; font-size: 0.7rem; text-align: center;
+            color: #999; padding: 10px; background: #fafafa; border-radius: 10px;
         }
 
         /* =========================================
-           모바일 대응 스타일 (화면 폭 768px 이하)
+           모바일 최적화 (화면 폭 768px 이하)
+           한 화면에 최대한 많이 담기 위한 설정
            ========================================= */
         @media (max-width: 768px) {
-            body { padding: 5px; }
-            .container { padding: 15px 8px; } /* 내부 여백 축소 */
+            body { padding: 4px; }
+            .container { padding: 10px 5px; border-radius: 10px; }
             
-            header { margin-bottom: 15px; padding-bottom: 10px; }
-            h1 { font-size: 1.2rem; }
-            .sub-title { font-size: 0.7rem; letter-spacing: 1px; }
+            header { margin-bottom: 8px; padding-bottom: 5px; }
+            h1 { font-size: 0.95rem; }
+            .sub-title { font-size: 0.55rem; letter-spacing: 0.5px; }
 
-            /* 그리드 간격 좁히기 */
-            .months-wrapper { gap: 10px; }
+            .months-wrapper { gap: 6px; } /* 단 사이 간격 축소 */
+            .month-section h2 { font-size: 1rem; margin-bottom: 6px; }
 
-            .month-section h2 { font-size: 1.2rem; margin-bottom: 10px; }
-
-            /* 본문 글자 크기 및 간격 대폭 축소 */
             .day-row {
-                font-size: 0.65rem; /* 글자 크기 줄임 */
-                margin-bottom: 6px;
-                padding-bottom: 4px;
+                font-size: 0.55rem; /* 글자 크기 대폭 축소 */
+                margin-bottom: 1.5px; /* 줄 간격 대폭 축소 */
+                padding-bottom: 1.5px;
             }
 
             .day-num {
-                width: 16px; /* 숫자 영역 좁히기 */
-                margin-right: 4px;
-            }
-
-            .tasks { gap: 4px 6px; }
-
-            /* 모바일용 작은 동그라미 */
-            .circle {
-                width: 14px;
-                height: 14px;
-                border-width: 1.5px;
+                width: 12px;
                 margin-right: 3px;
             }
-            .task-item input:checked + .circle::after {
-                font-size: 9px; /* 체크 표시 작게 */
-            }
 
-            footer { font-size: 0.6rem; padding: 10px; margin-top: 20px; }
+            .tasks { gap: 2px 4px; }
+
+            .circle {
+                width: 10px; /* 체크박스 크기 축소 */
+                height: 10px;
+                border-width: 1px;
+                margin-right: 2px;
+            }
+            .task-item input:checked + .circle::after { font-size: 7px; }
+
+            footer { font-size: 0.5rem; padding: 5px; margin-top: 8px; }
         }
     </style>
 </head>
@@ -210,33 +182,32 @@
 </div>
 
 <script>
-    // 데이터는 이전과 동일합니다.
     const bibleData = {
         jan: [
-            { day: 1, readings: ["막 1-16장"] }, { day: 2, readings: ["창 1-22장"] }, { day: 3, readings: ["창 23-38장"] },
-            { day: 4, readings: ["창 39-50장", "출 1-5장"] }, { day: 5, readings: ["출 6-25장"] }, { day: 6, readings: ["출 26-40장"] },
-            { day: 7, readings: ["레 1-19장"] }, { day: 8, readings: ["레 20-27장", "민 1-6장"] }, { day: 9, readings: ["민 7-22장"] },
-            { day: 10, readings: ["민 23-36장", "신 1-3장"] }, { day: 11, readings: ["신 4-21장"] }, { day: 12, readings: ["신 22-34장", "수 1-5장"] },
-            { day: 13, readings: ["수 6-24장"] }, { day: 14, readings: ["요 1-14장"] }, { day: 15, readings: ["요 15-21장", "요일 1-5장", "요이 1장", "요삼 1장"] },
-            { day: 16, readings: ["삿 1-15장"] }, { day: 17, readings: ["삿 16-21장", "룻 1-4장", "삼상 1-7장"] }, { day: 18, readings: ["삼상 8-23장"] },
-            { day: 19, readings: ["삼상 24-31장", "삼하 1-11장"] }, { day: 20, readings: ["삼하 12-24장"] }, { day: 21, readings: ["아가 1-8장", "시 1-41편"] },
-            { day: 22, readings: ["시 42-72편"] }, { day: 23, readings: ["시 73-106편"] }, { day: 24, readings: ["시 107-150편"] },
-            { day: 25, readings: ["왕상 1-13장"] }, { day: 26, readings: ["왕상 14-22장", "왕하 1-5장"] }, { day: 27, readings: ["왕하 6-20장"] },
-            { day: 28, readings: ["왕하 21-25장", "옵 1장", "미 1-7장"] }, { day: 29, readings: ["호 1-14장", "욜 1-3장", "암 1-9장"] },
-            { day: 30, readings: ["욘 1-4장", "나 1-3장", "합 1-3장", "습 1-3장", "욥 1-14장"] }, { day: 31, readings: ["욥 15-42장"] }
+            { day: 1, readings: ["막 1-16"] }, { day: 2, readings: ["창 1-22"] }, { day: 3, readings: ["창 23-38"] },
+            { day: 4, readings: ["창 39-50", "출 1-5"] }, { day: 5, readings: ["출 6-25"] }, { day: 6, readings: ["출 26-40"] },
+            { day: 7, readings: ["레 1-19"] }, { day: 8, readings: ["레 20-27", "민 1-6"] }, { day: 9, readings: ["민 7-22"] },
+            { day: 10, readings: ["민 23-36", "신 1-3"] }, { day: 11, readings: ["신 4-21"] }, { day: 12, readings: ["신 22-34", "수 1-5"] },
+            { day: 13, readings: ["수 6-24"] }, { day: 14, readings: ["요 1-14"] }, { day: 15, readings: ["요 15-21", "요일 1-5", "요이 1", "요삼 1"] },
+            { day: 16, readings: ["삿 1-15"] }, { day: 17, readings: ["삿 16-21", "룻 1-4", "삼상 1-7"] }, { day: 18, readings: ["삼상 8-23"] },
+            { day: 19, readings: ["삼상 24-31", "삼하 1-11"] }, { day: 20, readings: ["삼하 12-24"] }, { day: 21, readings: ["아가 1-8", "시 1-41"] },
+            { day: 22, readings: ["시 42-72"] }, { day: 23, readings: ["시 73-106"] }, { day: 24, readings: ["시 107-150"] },
+            { day: 25, readings: ["왕상 1-13"] }, { day: 26, readings: ["왕상 14-22", "왕하 1-5"] }, { day: 27, readings: ["왕하 6-20"] },
+            { day: 28, readings: ["왕하 21-25", "옵 1", "미 1-7"] }, { day: 29, readings: ["호 1-14", "욜 1-3", "암 1-9"] },
+            { day: 30, readings: ["욘 1-4", "나 1-3", "합 1-3", "습 1-3", "욥 1-14"] }, { day: 31, readings: ["욥 15-42"] }
         ],
         feb: [
-            { day: 1, readings: ["약 1-5장", "눅 1-10장"] }, { day: 2, readings: ["눅 11-24장"] }, { day: 3, readings: ["행 1-15장"] },
-            { day: 4, readings: ["행 16-28장", "딛 1-3장"] }, { day: 5, readings: ["대상 1-17장"] }, { day: 6, readings: ["대상 18-29장", "대하 1-9장"] },
-            { day: 7, readings: ["대하 10-30장"] }, { day: 8, readings: ["대하 31-36장", "렘 1-9장"] }, { day: 9, readings: ["렘 10-28장"] },
-            { day: 10, readings: ["렘 29-46장"] }, { day: 11, readings: ["렘 47-52장", "애 1-5장"] }, { day: 12, readings: ["겔 1-20장"] },
-            { day: 13, readings: ["겔 21-36장"] }, { day: 14, readings: ["겔 37-48장", "에 1-10장"] }, { day: 15, readings: ["전 1-12장", "스 1-10장"] },
-            { day: 16, readings: ["느 1-13장", "잠 1-8장"] }, { day: 17, readings: ["잠 9-31장"] }, { day: 18, readings: ["단 1-12장", "말 1-4장"] },
-            { day: 19, readings: ["학 1-2장", "슥 1-14장", "갈 1-6장", "엡 1-6장"] }, { day: 20, readings: ["빌 1-4장", "골 1-4장", "롬 1-16장"] },
-            { day: 21, readings: ["고전 1-16장", "고후 1-6장"] }, { day: 22, readings: ["고후 7-13장", "히 1-13장"] },
-            { day: 23, readings: ["살전 1-5장", "살후 1-3장", "딤전 1-6장", "딤후 1-4장", "벧전 1-5장", "벧후 1-3장"] },
-            { day: 24, readings: ["몬 1장", "유 1장", "계 1-22장"] }, { day: 25, readings: ["사 1-27장"] }, { day: 26, readings: ["사 28-48장"] },
-            { day: 27, readings: ["사 49-66장", "마 1-8장"] }, { day: 28, readings: ["마 9-28장"] }
+            { day: 1, readings: ["약 1-5", "눅 1-10"] }, { day: 2, readings: ["눅 11-24"] }, { day: 3, readings: ["행 1-15"] },
+            { day: 4, readings: ["행 16-28", "딛 1-3"] }, { day: 5, readings: ["대상 1-17"] }, { day: 6, readings: ["대상 18-29", "대하 1-9"] },
+            { day: 7, readings: ["대하 10-30"] }, { day: 8, readings: ["대하 31-36", "렘 1-9"] }, { day: 9, readings: ["렘 10-28"] },
+            { day: 10, readings: ["렘 29-46"] }, { day: 11, readings: ["렘 47-52", "애 1-5"] }, { day: 12, readings: ["겔 1-20"] },
+            { day: 13, readings: ["겔 21-36"] }, { day: 14, readings: ["겔 37-48", "에 1-10"] }, { day: 15, readings: ["전 1-12", "스 1-10"] },
+            { day: 16, readings: ["느 1-13", "잠 1-8"] }, { day: 17, readings: ["잠 9-31"] }, { day: 18, readings: ["단 1-12", "말 1-4"] },
+            { day: 19, readings: ["학 1-2", "슥 1-14", "갈 1-6", "엡 1-6"] }, { day: 20, readings: ["빌 1-4", "골 1-4", "롬 1-16"] },
+            { day: 21, readings: ["고전 1-16", "고후 1-6"] }, { day: 22, readings: ["고후 7-13", "히 1-13"] },
+            { day: 23, readings: ["살전-벧후"] }, // 공간 절약을 위해 줄임 표기 가능
+            { day: 24, readings: ["몬", "유", "계 1-22"] }, { day: 25, readings: ["사 1-27"] }, { day: 26, readings: ["사 28-48"] },
+            { day: 27, readings: ["사 49-66", "마 1-8"] }, { day: 28, readings: ["마 9-28"] }
         ]
     };
 
