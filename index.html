@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>두근두근 새해두달 성경통독</title>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-color: #fdf6e9;
@@ -15,17 +14,11 @@
 
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background-color: #f0f0f0; /* 배경 바깥쪽 색상 */
+            background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-
-        /* 캡처될 영역 전체 */
-        #capture-area {
-            background-color: var(--bg-color);
-            padding: 20px 15px;
+            padding: 15px;
+            line-height: 1.5;
         }
 
         .container {
@@ -44,18 +37,15 @@
             padding-bottom: 20px;
         }
 
-        h1 { font-size: 1.6rem; margin: 5px 0; color: #333; letter-spacing: -0.5px; }
+        h1 { font-size: 1.5rem; margin: 5px 0; color: #333; letter-spacing: -0.5px; }
         .sub-title { font-weight: bold; color: var(--primary-orange); letter-spacing: 2px; font-size: 0.9rem; }
 
+        /* 기본 레이아웃 (PC 등 넓은 화면) */
         .months-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr; /* 항상 2개 열 유지 */
             gap: 30px;
-        }
-
-        /* 모바일 대응: 화면이 작아지면 한 줄로 */
-        @media (max-width: 768px) {
-            .months-wrapper { grid-template-columns: 1fr; }
+            align-items: start;
         }
 
         .month-section h2 {
@@ -63,7 +53,8 @@
             font-style: italic;
             color: var(--primary-orange);
             border-bottom: 1px solid #eee;
-            margin-top: 10px;
+            margin-top: 0;
+            margin-bottom: 15px;
             font-size: 1.8rem;
         }
 
@@ -71,24 +62,25 @@
             display: flex;
             align-items: flex-start;
             margin-bottom: 12px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border-bottom: 1px solid #fcfcfc;
             padding-bottom: 6px;
         }
 
         .day-num {
-            width: 28px;
+            width: 30px;
             font-weight: bold;
             color: #b5835a;
             margin-right: 10px;
             flex-shrink: 0;
+            text-align: right;
         }
 
         .tasks {
             flex: 1;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 8px 12px; /* 상하, 좌우 간격 */
         }
 
         .task-item {
@@ -96,15 +88,15 @@
             align-items: center;
             cursor: pointer;
             user-select: none;
-            margin-right: 5px;
+            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
         }
 
         .task-item input { display: none; }
 
-        /* "O" 동그라미 스타일 */
+        /* "O" 동그라미 - 기본 크기 */
         .circle {
-            width: 19px;
-            height: 19px;
+            width: 20px;
+            height: 20px;
             border: 2px solid var(--primary-orange);
             border-radius: 50%;
             display: inline-block;
@@ -113,9 +105,10 @@
             background: white;
             flex-shrink: 0;
             transition: all 0.2s ease;
+            box-sizing: border-box;
         }
 
-        /* 체크 시 스타일 변화 */
+        /* 체크되었을 때 */
         .task-item input:checked + .circle {
             background-color: var(--primary-orange);
         }
@@ -123,7 +116,7 @@
         .task-item input:checked + .circle::after {
             content: '✓';
             color: white;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: bold;
             position: absolute;
             top: 50%;
@@ -144,71 +137,80 @@
             padding: 15px;
             background: #fafafa;
             border-radius: 12px;
-            line-height: 1.4;
         }
 
-        /* 하단 플로팅 버튼 영역 */
-        .button-area {
-            max-width: 800px;
-            margin: 20px auto 50px;
-            padding: 0 15px;
-            text-align: center;
-        }
+        /* =========================================
+           모바일 대응 스타일 (화면 폭 768px 이하)
+           ========================================= */
+        @media (max-width: 768px) {
+            body { padding: 5px; }
+            .container { padding: 15px 8px; } /* 내부 여백 축소 */
+            
+            header { margin-bottom: 15px; padding-bottom: 10px; }
+            h1 { font-size: 1.2rem; }
+            .sub-title { font-size: 0.7rem; letter-spacing: 1px; }
 
-        .btn-capture {
-            background-color: var(--primary-orange);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(230, 167, 112, 0.4);
-            transition: all 0.3s;
-            width: 100%;
-        }
+            /* 그리드 간격 좁히기 */
+            .months-wrapper { gap: 10px; }
 
-        .btn-capture:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(230, 167, 112, 0.4);
+            .month-section h2 { font-size: 1.2rem; margin-bottom: 10px; }
+
+            /* 본문 글자 크기 및 간격 대폭 축소 */
+            .day-row {
+                font-size: 0.65rem; /* 글자 크기 줄임 */
+                margin-bottom: 6px;
+                padding-bottom: 4px;
+            }
+
+            .day-num {
+                width: 16px; /* 숫자 영역 좁히기 */
+                margin-right: 4px;
+            }
+
+            .tasks { gap: 4px 6px; }
+
+            /* 모바일용 작은 동그라미 */
+            .circle {
+                width: 14px;
+                height: 14px;
+                border-width: 1.5px;
+                margin-right: 3px;
+            }
+            .task-item input:checked + .circle::after {
+                font-size: 9px; /* 체크 표시 작게 */
+            }
+
+            footer { font-size: 0.6rem; padding: 10px; margin-top: 20px; }
         }
     </style>
 </head>
 <body>
 
-<div id="capture-area">
-    <div class="container">
-        <header>
-            <h1>두근두근 새해두달 성경통독</h1>
-            <div class="sub-title">2 MONTHS DAILY BIBLE CHECKLIST</div>
-        </header>
+<div class="container">
+    <header>
+        <h1>두근두근 새해두달 성경통독</h1>
+        <div class="sub-title">2 MONTHS DAILY BIBLE CHECKLIST</div>
+    </header>
 
-        <div class="months-wrapper">
-            <section class="month-section">
-                <h2>January</h2>
-                <div id="jan-list"></div>
-            </section>
+    <div class="months-wrapper">
+        <section class="month-section">
+            <h2>January</h2>
+            <div id="jan-list"></div>
+        </section>
 
-            <section class="month-section">
-                <h2>February</h2>
-                <div id="feb-list"></div>
-            </section>
-        </div>
-
-        <footer>
-            본 통독표 순서는 "골방말씀"에서 제작하여 제공하는 성경읽기표에 따랐습니다.<br>
-            문의: 033.243.8669
-        </footer>
+        <section class="month-section">
+            <h2>February</h2>
+            <div id="feb-list"></div>
+        </section>
     </div>
-</div>
 
-<div class="button-area">
-    <button class="btn-capture" onclick="copyToClipboard()">현재 상태 화면 캡처 (클립보드 저장)</button>
+    <footer>
+        본 통독표 순서는 "골방말씀"에서 제작하여 제공하는 성경읽기표에 따랐습니다.
+    </footer>
 </div>
 
 <script>
-    // 전체 성경 데이터 입력
+    // 데이터는 이전과 동일합니다.
     const bibleData = {
         jan: [
             { day: 1, readings: ["막 1-16장"] }, { day: 2, readings: ["창 1-22장"] }, { day: 3, readings: ["창 23-38장"] },
@@ -238,7 +240,6 @@
         ]
     };
 
-    // 화면에 목록 그리기
     function renderList(month, targetId) {
         const container = document.getElementById(targetId);
         bibleData[month].forEach((item) => {
@@ -262,48 +263,10 @@
         });
     }
 
-    // 체크 상태 저장
     function saveStatus(checkbox) {
         localStorage.setItem(checkbox.dataset.key, checkbox.checked);
     }
 
-    // 화면 캡처 및 클립보드 복사
-    async function copyToClipboard() {
-        const captureArea = document.getElementById('capture-area');
-        const btn = document.querySelector('.btn-capture');
-        btn.innerText = "캡처 중...";
-
-        try {
-            const canvas = await html2canvas(captureArea, {
-                scale: 2, // 고해상도
-                backgroundColor: "#fdf6e9"
-            });
-
-            canvas.toBlob(async (blob) => {
-                if (!blob) return;
-                try {
-                    const item = new ClipboardItem({ "image/png": blob });
-                    await navigator.clipboard.write([item]);
-                    alert("성경 통독표가 클립보드에 복사되었습니다! 카카오톡 등에 붙여넣기 하세요.");
-                } catch (err) {
-                    // 클립보드 미지원 환경 (일부 모바일 브라우저) 대응
-                    const image = canvas.toDataURL("image/png");
-                    const link = document.createElement('a');
-                    link.href = image;
-                    link.download = `성경통독_${new Date().getMonth()+1}월.png`;
-                    link.click();
-                    alert("클립보드 복사가 지원되지 않아 이미지 파일로 저장했습니다.");
-                }
-                btn.innerText = "현재 상태 화면 캡처 (클립보드 저장)";
-            }, "image/png");
-        } catch (e) {
-            console.error(e);
-            alert("캡처에 실패했습니다.");
-            btn.innerText = "현재 상태 화면 캡처 (클립보드 저장)";
-        }
-    }
-
-    // 초기 실행
     renderList('jan', 'jan-list');
     renderList('feb', 'feb-list');
 </script>
