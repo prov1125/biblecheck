@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두근두근 새해두달 성경통독</title>
+    <style>
+        :root {
+            --bg-color: #fdf6e9;
+            --primary-orange: #e6a770;
+            --text-color: #444;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 10px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed var(--primary-orange);
+            padding-bottom: 15px;
+        }
+
+        h1 { font-size: 1.4rem; margin: 5px 0; color: #333; }
+        .sub-title { font-weight: bold; color: var(--primary-orange); letter-spacing: 1px; font-size: 0.9rem; }
+
+        .months-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .months-wrapper { grid-template-columns: 1fr; }
+        }
+
+        .month-section h2 {
+            font-family: serif;
+            font-style: italic;
+            color: var(--primary-orange);
+            border-bottom: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .day-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #fafafa;
+            padding-bottom: 5px;
+        }
+
+        .day-num {
+            width: 25px;
+            font-weight: bold;
+            color: #b5835a;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .tasks {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .task-item input { display: none; }
+
+        .circle {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--primary-orange);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+            position: relative;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .task-item input:checked + .circle {
+            background-color: var(--primary-orange);
+        }
+
+        .task-item input:checked + .circle::after {
+            content: '✓';
+            color: white;
+            font-size: 11px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-item input:checked ~ .task-text {
+            color: #bbb;
+            text-decoration: line-through;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #999;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>두근두근 새해두달 성경통독</h1>
+        <div class="sub-title">2 MONTHS DAILY BIBLE CHECKLIST</div>
+    </header>
+
+    <div class="months-wrapper">
+        <section class="month-section">
+            <h2>January</h2>
+            <div id="jan-list"></div>
+        </section>
+
+        <section class="month-section">
+            <h2>February</h2>
+            <div id="feb-list"></div>
+        </section>
+    </div>
+
+    <footer>
+        본 통독표 순서는 "골방말씀"에서 제작하여 제공하는 성경읽기표에 따랐습니다.
+    </footer>
+</div>
+
+<script>
+    const bibleData = {
+        jan: [
+            { day: 1, readings: ["막 1-16장"] },
+            { day: 2, readings: ["창 1-22장"] },
+            { day: 3, readings: ["창 23-38장"] },
+            { day: 4, readings: ["창 39-50장", "출 1-5장"] },
+            { day: 5, readings: ["출 6-25장"] },
+            { day: 6, readings: ["출 26-40장"] },
+            { day: 7, readings: ["레 1-19장"] },
+            { day: 8, readings: ["레 20-27장", "민 1-6장"] },
+            { day: 9, readings: ["민 7-22장"] },
+            { day: 10, readings: ["민 23-36장", "신 1-3장"] },
+            { day: 11, readings: ["신 4-21장"] },
+            { day: 12, readings: ["신 22-34장", "수 1-5장"] },
+            { day: 13, readings: ["수 6-24장"] },
+            { day: 14, readings: ["요 1-14장"] },
+            { day: 15, readings: ["요 15-21장", "요일 1-5장", "요이 1장", "요삼 1장"] },
+            { day: 16, readings: ["삿 1-15장"] },
+            { day: 17, readings: ["삿 16-21장", "룻 1-4장", "삼상 1-7장"] },
+            { day: 18, readings: ["삼상 8-23장"] },
+            { day: 19, readings: ["삼상 24-31장", "삼하 1-11장"] },
+            { day: 20, readings: ["삼하 12-24장"] },
+            { day: 21, readings: ["아가 1-8장", "시 1-41편"] },
+            { day: 22, readings: ["시 42-72편"] },
+            { day: 23, readings: ["시 73-106편"] },
+            { day: 24, readings: ["시 107-150편"] },
+            { day: 25, readings: ["왕상 1-13장"] },
+            { day: 26, readings: ["왕상 14-22장", "왕하 1-5장"] },
+            { day: 27, readings: ["왕하 6-20장"] },
+            { day: 28, readings: ["왕하 21-25장", "옵 1장", "미 1-7장"] },
+            { day: 29, readings: ["호 1-14장", "욜 1-3장", "암 1-9장"] },
+            { day: 30, readings: ["욘 1-4장", "나 1-3장", "합 1-3장", "습 1-3장", "욥 1-14장"] },
+            { day: 31, readings: ["욥 15-42장"] }
+        ],
+        feb: [
+            { day: 1, readings: ["약 1-5장", "눅 1-10장"] },
+            { day: 2, readings: ["눅 11-24장"] },
+            { day: 3, readings: ["행 1-15장"] },
+            { day: 4, readings: ["행 16-28장", "딛 1-3장"] },
+            { day: 5, readings: ["대상 1-17장"] },
+            { day: 6, readings: ["대상 18-29장", "대하 1-9장"] },
+            { day: 7, readings: ["대하 10-30장"] },
+            { day: 8, readings: ["대하 31-36장", "렘 1-9장"] },
+            { day: 9, readings: ["렘 10-28장"] },
+            { day: 10, readings: ["렘 29-46장"] },
+            { day: 11, readings: ["렘 47-52장", "애 1-5장"] },
+            { day: 12, readings: ["겔 1-20장"] },
+            { day: 13, readings: ["겔 21-36장"] },
+            { day: 14, readings: ["겔 37-48장", "에 1-10장"] },
+            { day: 15, readings: ["전 1-12장", "스 1-10장"] },
+            { day: 16, readings: ["느 1-13장", "잠 1-8장"] },
+            { day: 17, readings: ["잠 9-31장"] },
+            { day: 18, readings: ["단 1-12장", "말 1-4장"] },
+            { day: 19, readings: ["학 1-2장", "슥 1-14장", "갈 1-6장", "엡 1-6장"] },
+            { day: 20, readings: ["빌 1-4장", "골 1-4장", "롬 1-16장"] },
+            { day: 21, readings: ["고전 1-16장", "고후 1-6장"] },
+            { day: 22, readings: ["고후 7-13장", "히 1-13장"] },
+            { day: 23, readings: ["살전 1-5장", "살후 1-3장", "딤전 1-6장", "딤후 1-4장", "벧전 1-5장", "벧후 1-3장"] },
+            { day: 24, readings: ["몬 1장", "유 1장", "계 1-22장"] },
+            { day: 25, readings: ["사 1-27장"] },
+            { day: 26, readings: ["사 28-48장"] },
+            { day: 27, readings: ["사 49-66장", "마 1-8장"] },
+            { day: 28, readings: ["마 9-28장"] }
+        ]
+    };
+
+    function renderList(month, targetId) {
+        const container = document.getElementById(targetId);
+        bibleData[month].forEach((item) => {
+            const row = document.createElement('div');
+            row.className = 'day-row';
+            
+            let html = `<div class="day-num">${item.day}</div><div class="tasks">`;
+            item.readings.forEach((reading, rIdx) => {
+                const storageKey = `bible-${month}-${item.day}-${rIdx}`;
+                const checked = localStorage.getItem(storageKey) === 'true' ? 'checked' : '';
+                html += `
+                    <label class="task-item">
+                        <input type="checkbox" data-key="${storageKey}" ${checked} onchange="saveStatus(this)">
+                        <span class="circle"></span>
+                        <span class="task-text">${reading}</span>
+                    </label>
+                `;
+            });
+            html += `</div>`;
+            row.innerHTML = html;
+            container.appendChild(row);
+        });
+    }
+
+    function saveStatus(checkbox) {
+        localStorage.setItem(checkbox.dataset.key, checkbox.checked);
+    }
+
+    renderList('jan', 'jan-list');
+    renderList('feb', 'feb-list');
+</script>
+
+</body>
+</html>
